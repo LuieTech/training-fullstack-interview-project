@@ -1,4 +1,4 @@
-# LAB API REST
+<!-- # LAB API REST
 
 En este laboratorio vamos a construir una biblioteca, teniendo en cuenta que almacenaremos información tanto de autores como libros.
 
@@ -87,4 +87,4 @@ Añade atributos virtuales en el autor:
 - amoutOfBooks: Número total de libros que tiene el autor
 - books: listado de todos los libros del autor
 
-Siempre que se listen, obtenga el detalle de los autores vía API devolveremos también estos dos atributos.
+Siempre que se listen, obtenga el detalle de los autores vía API devolveremos también estos dos atributos. -->
