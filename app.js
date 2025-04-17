@@ -7,6 +7,8 @@ const logger = require("morgan")
 require('./config/db.config')
 
 const app = express()
+const cors = require("./config/cors.config")
+app.use(cors)
 app.use(express.json())
 app.use(logger('dev'))
 
