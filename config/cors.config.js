@@ -10,3 +10,5 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
       else next(new Error('Not allowed by CORS config file'))
     }
   })
+
+  // module.exports = cors()
