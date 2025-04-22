@@ -2,7 +2,7 @@ const Book = require("../models/book.model")
 const createError = require("http-errors")
 
 module.exports.create = (req, res, next) => {
-
+  
   Book.create(req.body)
     .then(book => res.status(201).json(book))
     .catch(error => next(error))
@@ -32,7 +32,7 @@ module.exports.details = (req, res, next) => {
 
 }
 
-module.exports.delete = (req, res, next) => {
+module.exports.delete = (req, res, next) => {  
 
   Book.findById(req.params.id)
     .then((book) => {
