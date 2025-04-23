@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom"
 
 function BookList() {
+
   const [books, setBooks] = useState();
   const {
     register,
@@ -15,6 +17,7 @@ function BookList() {
       description: "",
     },
   });
+  const navigate = useNavigate()
 
   const getBooks = async () => {
     const response = await fetch("http://localhost:3000/v1/books");
@@ -27,12 +30,11 @@ function BookList() {
   }, []);
 
   const addBook = async (book) => {
-    
     try {
       const response = await fetch("http://localhost:3000/v1/books", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(book),
       });
@@ -44,14 +46,11 @@ function BookList() {
   };
 
   const handleDelete = async (bookId) => {
-    console.log("This is the Book Id: ",bookId);
-    
-    const response = await fetch("http://localhost:3000/v1/books/"+ bookId, {
+    const response = await fetch("http://localhost:3000/v1/books/" + bookId, {
       method: "DELETE",
     });
     getBooks();
-    
-  }
+  };
 
   const onSubmit = (data) => {
     addBook(data);
@@ -97,23 +96,35 @@ function BookList() {
         </div>
         <div className="m-4">
           <button className="btn btn-success me-2" type="submit">
-            Create
+            Send
           </button>
         </div>
       </form>
-      {books?.map((book) => (
-      <div key={book._id}  className="card m-2" style={{ width: "18rem" }}>
-        
-          <div className="card-body">
-            <h5 className="card-title">{book.title}</h5>
-            <h6 className="card-subtitle mb-2 text-body-secondary">
-              {book.author}
-            </h6>
-            <p className="card-text">{book.description}</p>
-          </div>
-          <button onClick={() => handleDelete(book._id)}>Delete</button>
-       
-      </div> ))}
+      
+        <div className="row">
+        {books?.map((book) => (
+          <div key={book._id} className="card m-2" style={{ width: "18rem" }}>
+            <div className="card-body">
+              <h5 className="card-title">{book.title}</h5>
+              <h6 className="card-subtitle mb-2 text-body-secondary">
+                {book.author}
+              </h6>
+              <p className="card-text">{book.description}</p>
+            </div>
+            <div>
+              <button
+                className="btn btn-danger btn-sm me-2"
+                onClick={() => handleDelete(book._id)}
+              >
+                Delete
+              </button>
+              <button className="btn btn-secondary btn-sm" onClick={() => navigate(`edit/${book._id}`)}>
+                Edit
+              </button>
+            </div>
+          </div> ))}
+        </div>
+     
     </>
   );
 }
