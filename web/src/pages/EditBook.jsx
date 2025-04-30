@@ -1,34 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EditBook() {
   const { bookId } = useParams();
-  const [editBook, setEditBook] = useState(null)
-  const {register, handleSubmit, reset, formState: {errors}} = useForm({
-    values: editBook
-  })
+  const [editBook, setEditBook] = useState(null);
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    values: editBook,
+  });
 
   const getBookDetails = async () => {
-    const response = await fetch("http://localhost:3000/v1/books/"+ bookId)
-    const book = await response.json()
-    console.log("This is the book details: ",book);
-    
-    setEditBook(book)
-    //reset(book)
-  }
+    const response = await fetch("http://localhost:3000/v1/books/" + bookId);
+    const book = await response.json();
+    setEditBook(book);
+  };
 
   useEffect(() => {
-    getBookDetails()
-  }, [])
+    getBookDetails();
+  }, []);
 
-  const onSubmit = () => {
+  const handleEdit = async (editBook, id) => {
+    try {
+      const response = await fetch("http://localhost:3000/v1/books/"+bookId , {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editBook)
+      })
 
-  }
+      if(!response.ok){
+        const error = await response.json()
+        throw new Error(error.message || "Error while editing while fetching");
+        
+      }
+
+      navigate("/")
+    } catch (error) {
+        console.log("Update error: ", error.message);
+        new Error(error.message)
+    }
+  };
 
   return (
     <>
-      <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
+      <form className="mb-4" onSubmit={handleSubmit(handleEdit)}>
         <div className="row mb-4">
           {/* title */}
           <div className="col">
@@ -62,10 +84,17 @@ function EditBook() {
             rows="3"
           ></textarea>
         </div>
-        <div className="m-4">
-          <button className="btn btn-success me-2" type="submit">
-            Edit
-          </button>
+        <div className="m-4 gap-2 d-flex flex- justify-content-center">
+          <div className="">
+            <button className="btn btn-success" type="submit">
+              Edit
+            </button>
+          </div>
+          <div className="">
+            <button className="btn btn-primary" onClick={() => navigate("/")}>
+              back
+            </button>
+          </div>
         </div>
       </form>
     </>
