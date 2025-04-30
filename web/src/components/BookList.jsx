@@ -96,7 +96,7 @@ function BookList() {
         </div>
         <div className="m-4">
           <button className="btn btn-success me-2" type="submit">
-            Send
+            Create
           </button>
         </div>
       </form>
@@ -118,7 +118,7 @@ function BookList() {
               >
                 Delete
               </button>
-              <button className="btn btn-secondary btn-sm" onClick={() => navigate(`edit/${book._id}`)}>
+              <button className="btn btn-secondary btn-sm" onClick={() => navigate(`/edit/${book._id}`)}>
                 Edit
               </button>
             </div>
